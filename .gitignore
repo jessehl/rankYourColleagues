@@ -1,0 +1,9 @@
+/.bsp/
+target/
+
+# Data files
+**.csv
+
+# Editor files
+*metals*
+*vscode*
