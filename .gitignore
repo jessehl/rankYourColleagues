@@ -1,8 +1,8 @@
 /.bsp/
 target/
 
-# Data files
-**.csv
+# Results
+**.tsv
 
 # Editor files
 *metals*
