@@ -57,14 +57,17 @@ object Main extends  App {
   answers.filter(_.names.length > 3).foreach(answer => println(s"invalid: $answer"))
 
   // Get points awarded per question, per name. 
-  val pointsPerQuestionPerName = answers
-    .groupBy(_.question)
+  val questions = answers.groupBy(_.question)
+  val pointsPerQuestionPerName = questions
     .mapValues(_.map(_.names).flatten.groupBy(identity).mapValues(_.length))
   
   // Get points awarded per user. 
-  val users = answers.map(_.username).distinct
-  val questions = pointsPerQuestionPerName.keys.toList 
+  val users = answers
+    .groupBy(_.username) 
+    .mapValues(_.flatMap(answer => answer.names.map(pointsPerQuestionPerName(answer.question).getOrElse(_, 0))).sum)
 
+  val s = users.toMap
+  println(s("name"))
 
 
 
