@@ -38,10 +38,10 @@ object Main extends  App {
   // Print how often the players answered with their own name.
   answers.map{answer => 
       val contestantName  = answer.contestant.split("@")(0).replace(".", " ").toLowerCase
-      val answeredOwnName = answer.names.map(_.toLowerCase).contains(contestantName)
-      (contestantName, answeredOwnName)
+      val counter         = if(answer.names.map(_.toLowerCase).contains(contestantName)) 1 else 0
+      (contestantName, counter)
     }
-    .groupBy(_._1).mapValues(_.filter(_._2 == true).length)
+    .groupBy(_._1).mapValues(_.map(_._2).sum)
     .toList.sortBy(- _._2).foreach(ans => println(s"mentioned own name: $ans"))
     
 
