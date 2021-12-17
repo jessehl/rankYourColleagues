@@ -1,7 +1,5 @@
 package ranking 
 
-import java.time.format.DateTimeFormatter
-
 
 case class Answer(
   val contestant: String, 
