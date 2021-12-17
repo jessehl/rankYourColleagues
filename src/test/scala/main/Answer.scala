@@ -16,7 +16,7 @@ class TestAnswer {
   }
 
   @Test def `every answer of a contestant should be there` = {
-    assert(answers.filter(_.contestant == "person11@example.nl").length == 7)
+    assert(answers.filter(_.contestant == "person1@example.nl").length == 7)
   }
 
 }
