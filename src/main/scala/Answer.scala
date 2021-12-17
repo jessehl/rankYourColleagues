@@ -1,33 +1,36 @@
 package ranking 
 
+import java.time.format.DateTimeFormatter
+
 
 case class Answer(
-  val username: String, 
-  val timestamp: String,
-  val names: Seq[String],
-  val question: String
+  val contestant: String, 
+  val timeSent: String,
+  val question: String,
+  val names: Seq[String]
   )
-{
-  override def toString = s"(question: $question | username: $username | names: ${names.mkString(", ")})"
+  {
+
+  override def toString = s"(question: $question | contestant: $contestant | names: ${names.mkString(", ")})"
 }
 
 
 object Answers {
 
-  val userColumn = "E-mailadres"
-  val timestampColumn = "Tijdstempel"
-  val header = List(userColumn, timestampColumn)
+  val contestantColumn = "E-mailadres"
+  val timeSentColumn = "Tijdstempel"
+  val header = List(contestantColumn, timeSentColumn)
 
   def fromRecord(record: Map[String, String]): Seq[Answer] = {
+    val format = DateTimeFormatter.ofPattern("dd-MM-yyyy hh:mm:ss")
     val questions = record.keys.filterNot(header.contains(_)).toList
-    questions.map{questionString => 
-      new Answer(
-        username =  record(userColumn), 
-        timestamp = record(timestampColumn), 
-        names =  record(questionString).split(", ").map(_.trim).filter(_ != ""), 
-        question = questionString
+    questions.map(question => Answer(
+        contestant =  record(contestantColumn), 
+        timeSent = record(timeSentColumn),
+        question = question,
+        names =  record(question).split(", ").map(_.trim).filter(_ != "")
       )
-    }
+    )
   }
 
   def fromFile(filename: String): Seq[Answer] = {
