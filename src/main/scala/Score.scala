@@ -30,10 +30,9 @@ object Score {
     // Return points earned per Contestant. 
     validAnswers
       .groupBy(_.contestant) 
-      .mapValues(_.flatMap(answer => 
-        answer.names.map(pointsPerQuestionPerName(answer.question).getOrElse(_, 0))).sum
-        )
-      .toList
+      .mapValues(_.flatMap(answer => answer.names.map(
+        pointsPerQuestionPerName(answer.question).getOrElse(_, 0)
+      )).sum).toList
   }
 
 }

@@ -22,7 +22,6 @@ object Answers {
   val header = List(contestantColumn, timeSentColumn)
 
   def fromRecord(record: Map[String, String]): Seq[Answer] = {
-    val format = DateTimeFormatter.ofPattern("dd-MM-yyyy hh:mm:ss")
     val questions = record.keys.filterNot(header.contains(_)).toList
     questions.map(question => Answer(
         contestant =  record(contestantColumn), 
