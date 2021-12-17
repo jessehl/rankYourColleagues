@@ -28,7 +28,7 @@ object Answers {
         contestant =  record(contestantColumn), 
         timeSent = record(timeSentColumn),
         question = question,
-        names =  record(question).split(", ").map(_.trim).filter(_ != "")
+        names =  record(question).split(", ").map(_.trim).filter(_ != "").distinct
       )
     )
   }

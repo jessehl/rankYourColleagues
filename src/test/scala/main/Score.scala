@@ -5,16 +5,17 @@ import scala.util.Try
 
 class TestScore {
 
-    val ts = "2020-01-01 00:00:00"
-
-    val answer1 = Answer("person1", ts, "question1", List("person1"))
-    val answer2 = Answer("person2", ts, "question1", List("person1"))
-    val answer3 = Answer("person3", ts, "question1", List("person1", "person2", "person3"))
-    val answer4 = Answer("person3", ts, "question2", List("person1", "person2", "person3"))
-
-    val answerInvalid = Answer("sillyperson", ts, "question1", List("person1", "person2", "person3", "person4"))
+    val ts              = "2020-01-01 00:00:00"
+    val answer1         = Answer("person1", ts, "question1", List("person1"))
+    val answer2         = Answer("person2", ts, "question1", List("person1"))
+    val answer3         = Answer("person3", ts, "question1", List("person1", "person2", "person3"))
+    val answer4         = Answer("person3", ts, "question2", List("person1", "person2", "person3"))
+    val answerInvalid   = Answer("sillyperson", ts, "question1", List("person1", "person2", "person3", "person4"))
 
 
+@Test def `test with no contestants` = {
+    assert(Score.compute(List.empty[Answer]).isEmpty)
+}
 
 @Test def `test with one contestant` = {
     val scores = Score.compute(List(answer1))
