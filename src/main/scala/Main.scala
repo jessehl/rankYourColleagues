@@ -16,6 +16,18 @@ object Main extends  App {
   val answers: Seq[Answer] = filenames.flatMap(Answers.fromFile)
 
 
+  // Print total number of answers.
+  println(s"number of answers: ${answers.length}")
+
+
+  // Print total number of names mentioned.
+  println(s"number of names: ${answers.map(_.names.length).sum}")
+
+
+  // Print answers with less than 3 names.
+  answers.filter(_.names.length < 3).foreach(ans => println(s"less than 3 names answered: ${ans}"))
+
+
   // Print how often was answered with each name.
   answers.flatMap(_.names)
     .groupBy(identity).mapValues(_.size)
@@ -23,7 +35,7 @@ object Main extends  App {
     .foreach(ans => println(s"mentioned often: $ans"))
 
 
-  // Print the how often the players answered with their own name.
+  // Print how often the players answered with their own name.
   answers.map{answer => 
       val contestantName  = answer.contestant.split("@")(0).replace(".", " ").toLowerCase
       val answeredOwnName = answer.names.map(_.toLowerCase).contains(contestantName)
