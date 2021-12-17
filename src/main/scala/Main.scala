@@ -42,7 +42,7 @@ object Main extends  App {
   // Get and print the score!
   Score.compute(answers)
     .sortBy(_._2)
-    .foreach(score => println(score))
+    .foreach(score => println(s"points: ${score}"))
 
 }
 

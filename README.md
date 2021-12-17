@@ -16,4 +16,5 @@ sbt test
 ```
 
 ## Requirements
-- [sbt](https://www.scala-sbt.org/download.html)
+- [sbt](https://www.scala-sbt.org/download.html)  
+- A JVM  
