@@ -46,7 +46,7 @@ object Score {
 
 
 
-  /* Raises error when multiple contestants answered the same question more than once. */
+  /* Raises error when any contestant answered a question more than once. */
   private def assertNoDuplicates(answers: Seq[Answer]) = {
     val duplicates = answers
       .groupBy(_.contestant)
