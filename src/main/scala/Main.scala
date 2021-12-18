@@ -1,6 +1,5 @@
 package ranking
 
-import scala.io.Source
 
 
 object Main extends  App {
@@ -16,7 +15,7 @@ object Main extends  App {
   val answers: Seq[Answer] = filenames.flatMap(Answers.fromFile)
 
 
-  // Print total number of answers.
+  // Print total number of Answers.
   println(s"number of answers: ${answers.length}")
 
 
@@ -24,36 +23,41 @@ object Main extends  App {
   println(s"number of names: ${answers.map(_.names.length).sum}")
 
 
-  // Print answers with less than 3 names.
-  answers.filter(_.names.length < 3).foreach(ans => println(s"less than 3 names answered: ${ans}"))
+  // Print Answers with less than 3 names.
+  answers.filter(_.names.length < 3)
+    .foreach(answer => println(s"less than 3 names answered: ${answer}"))
 
 
   // Print how often was answered with each name.
   answers.flatMap(_.names)
-    .groupBy(identity).mapValues(_.size)
-    .toList.sortBy(- _._2)
-    .foreach(ans => println(s"mentioned often: $ans"))
+    .groupBy(identity)
+    .mapValues(_.size)
+    .toList.sortBy{case (name, count) => - count}
+    .foreach(nameCount => println(s"mentioned often: $nameCount"))
 
 
   // Print how often the players answered with their own name.
   answers.map{answer => 
-      val contestantName  = answer.contestant.split("@")(0).replace(".", " ").toLowerCase
-      val counter         = if(answer.names.map(_.toLowerCase).contains(contestantName)) 1 else 0
-      (contestantName, counter)
+      val name    = answer.contestant.split("@")(0).replace(".", " ").toLowerCase
+      val self    = answer.names.map(_.toLowerCase).contains(name)
+      (name, self)
     }
-    .groupBy(_._1).mapValues(_.map(_._2).sum)
-    .toList.sortBy(- _._2).foreach(ans => println(s"mentioned own name: $ans"))
+    .groupBy{case (name, self) => name}
+    .mapValues(_.filter{case (name, self) => self == true}.length)
+    .toList.sortBy(- _._2)
+    .foreach(nameCount => println(s"mentioned own name: $nameCount"))
     
 
   // Check whether all forms were sent around the same time. 
-  answers.map(answer => (answer.timeSent, answer.contestant)).distinct
-    .sortBy(_._1).foreach(ans => println(s"submitted form:  $ans"))
+  answers.map(answer => (answer.timeSent, answer.contestant))
+    .distinct.sortBy(_._1)
+    .foreach(sentForm => println(s"submitted form:  $sentForm"))
 
 
   // Get and print the score!
   Score.compute(answers)
     .sortBy(_._2)
-    .foreach(score => println(s"points: ${score._1}:${score._2}"))
+    .foreach{case (contestant, points) => println(s"points: ${contestant}:${points}")}
 
 }
 

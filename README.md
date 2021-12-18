@@ -1,6 +1,6 @@
 # Rank your colleagues
 
-This project analyzes the results of the _Rank Your Colleagues_ game. For each round of the game, there is a .tsv file (export from Google Forms). One example file is included in [`src/test/results/example.tsv`](src/test/results/example.tsv).
+This project is used to analyze the results of the _Rank Your Colleagues_ game. The game's answers are collected using Google Forms - each round results in one .tsv file. An example file is included in [`src/test/results/`](src/test/results/).
 
 
 ## Usage

@@ -1,16 +1,17 @@
 package ranking 
 
 
-case class Answer(
-  val contestant: String, 
-  val timeSent: String,
-  val question: String,
-  val names: Seq[String]
-  )
-  {
 
+
+case class Answer(
+  val contestant: Score.Contestant, 
+  val timeSent: String,
+  val question: Score.Question,
+  val names: Score.Names
+  ){
   override def toString = s"(question: $question | contestant: $contestant | names: ${names.mkString(", ")})"
 }
+
 
 
 object Answers {
@@ -20,7 +21,9 @@ object Answers {
   val header = List(contestantColumn, timeSentColumn)
 
   def fromRecord(record: Map[String, String]): Seq[Answer] = {
-    val questions = record.keys.filterNot(header.contains(_)).toList
+    val questions: Seq[Score.Question] = 
+      record.keys.filterNot(header.contains(_)).toList
+
     questions.map(question => Answer(
         contestant =  record(contestantColumn), 
         timeSent = record(timeSentColumn),
@@ -31,6 +34,6 @@ object Answers {
   }
 
   def fromFile(filename: String): Seq[Answer] = {
-    Csv.parse(filename).flatMap(fromRecord)
+    Tsv.parse(filename).flatMap(fromRecord)
   }
 }
