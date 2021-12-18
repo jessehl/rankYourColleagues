@@ -41,23 +41,20 @@ object Score {
     val points: MapView[Question, MapView[Name, Points]] = 
       validAnswers
         .groupBy(answer => answer.question)
-        .mapValues(
-          answers => answers.flatMap(
-            answer => answer.names
-          ).groupBy(identity)
-        .mapValues(names => names.length))
+        .mapValues(answers => answers
+          .flatMap(answer => answer.names)
+            .groupBy(identity)
+            .mapValues(names => names.length)
+        )
 
     // Return points earned per Contestant. 
     validAnswers
       .groupBy(_.contestant) 
-      .mapValues(
-        answers => answers.flatMap(
-          answer => answer.names.map(
-            name => points(answer.question)(name)
-          )
+      .mapValues(answers => answers
+        .flatMap(answer => answer.names
+          .map(name => points(answer.question)(name))
         ).sum
-      )
-      .toList
+      ).toList
   }
 
 }
