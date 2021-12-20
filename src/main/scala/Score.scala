@@ -1,24 +1,13 @@
 package ranking 
 
-import scala.collection.{MapView, View}
+import scala.collection.MapView
 
 object Score {
 
-  // E.g. 'Person 1'
-  type Name = String 
-  type Names = Seq[Name]
-
-  // E.g. 'person.1@example.nl'
-  type Contestant = String 
-
   type Points = Int 
 
-  // E.g. 'Who is most likely to ... ?'
-  type Question = String 
-
-
   /* Returns the total Points earned per Contestant. */
-  def compute(answers: Seq[Answer]): List[(Contestant, Points)] = {
+  def compute(answers: Seq[Answer]): List[(Form.Contestant, Points)] = {
 
     // Google Forms should enforce one answer per question, but better safe than sorry.
     assertNoDuplicates(answers)
@@ -28,7 +17,7 @@ object Score {
     invalidAnswers.foreach(answer => println(s"invalid answer: $answer"))
     
     // Get points awarded per Question, per Name. 
-    val points: MapView[Question, MapView[Name, Points]] = 
+    val points: MapView[Form.Question, MapView[Form.Name, Points]] = 
       validAnswers
         .groupBy(answer => answer.question)
         .mapValues(answers => computePointsPerQuestion(answers))
@@ -58,7 +47,7 @@ object Score {
     assert(duplicates.isEmpty, s"duplicate answers found: ${duplicates}")
   }
 
-  private def computePointsPerQuestion(answers: Seq[Answer]): MapView[Name, Points] = {
+  private def computePointsPerQuestion(answers: Seq[Answer]): MapView[Form.Name, Points] = {
     answers
       .flatMap(answer => answer.names)
       .groupBy(identity)
