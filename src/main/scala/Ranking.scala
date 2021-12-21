@@ -1,7 +1,4 @@
-package ranking 
-
-
-object Form {
+package object ranking {
 
   // E.g. 'Person 1'
   type Name = String 
@@ -17,5 +14,8 @@ object Form {
 
   // E.g. 'Who is most likely to ... ?'
   type Question = String 
+
+  // E.g. 122 points.
+  type Points = Int 
   
 }

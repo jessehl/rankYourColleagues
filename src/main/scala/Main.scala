@@ -54,8 +54,13 @@ object Main extends  App {
     .foreach(sentForm => println(s"submitted form:  $sentForm"))
 
 
-  // Get and print the score!
-  Score.compute(answers)
+  // Print duplicate answers. 
+  val duplicates = Score.duplicates(answers) 
+  duplicates.foreach(answer => s"found duplicate answer: $answer")
+  
+  
+  // Compute the score if there are no duplicates.
+  if(duplicates.isEmpty) Score.compute(answers)
     .sortBy(_._2)
     .foreach{case (contestant, points) => println(s"points: ${contestant}:${points}")}
 

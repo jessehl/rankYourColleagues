@@ -2,10 +2,10 @@ package ranking
 
 
 case class Answer(
-  val contestant: Form.Contestant, 
-  val timeSent: Form.TimeSent,
-  val question: Form.Question,
-  val names: Form.Names
+  val contestant: Contestant, 
+  val timeSent: TimeSent,
+  val question: Question,
+  val names: Names
   ){
   override def toString = s"(question: $question | contestant: $contestant | names: ${names.mkString(", ")})"
 }
@@ -13,15 +13,15 @@ case class Answer(
 
 object Answers {
 
-  val header = List(Form.contestantColumn, Form.timeSentColumn)
+  val header = List(contestantColumn, timeSentColumn)
 
   def fromRecord(record: Map[String, String]): Seq[Answer] = {
-    val questions: Seq[Form.Question] = 
+    val questions: Seq[Question] = 
       record.keys.filterNot(header.contains(_)).toList
-
+    
     questions.map(question => Answer(
-        contestant =  record(Form.contestantColumn), 
-        timeSent = record(Form.timeSentColumn),
+        contestant =  record(contestantColumn), 
+        timeSent = record(timeSentColumn),
         question = question,
         names =  record(question).split(", ").map(_.trim).filter(_ != "").distinct
       )
